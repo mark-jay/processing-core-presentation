@@ -36,19 +36,6 @@ transfer X money from wallet1 to wallet2:
 ### Transaction API. Possible operations
 
  - create - validates & blocks money
-
----
-
-### Transaction API. Possible operations
-
- - create - validates & blocks money
- - complete - validates again & sends money
-
----
-
-### Transaction API. Possible operations
-
- - create - validates & blocks money
  - complete - validates again & sends money
  - decline - does nothing, returns everything back as it was before
 
