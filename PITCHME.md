@@ -36,6 +36,19 @@ transfer X money from wallet1 to wallet2:
 ### Transaction API. Possible operations
 
  - create - validates & blocks money
+
+---
+
+### Transaction API. Possible operations
+
+ - create - validates & blocks money
+ - complete - validates again & sends money
+
+---
+
+### Transaction API. Possible operations
+
+ - create - validates & blocks money
  - complete - validates again & sends money
  - decline - does nothing, returns everything back as it was before
 
@@ -53,7 +66,7 @@ transfer X money from wallet1 to wallet2:
 
 In a single transaction
 
- - validates business logic - user not deactivated/channel enabled
+ - validates business logic - user not deactivated/channel enabled/etc
  - generates transaction number
  - validates limits(will be explained later)
  - calculatesTariffs(will be explained later)
@@ -103,9 +116,9 @@ all that was previously calculated in method 'calculateTariffs'
 is now executed by generating a lot of 'TransactionHistory' rows
 each such row represents an increase or decrease(debit or credit) on a wallet explaining why it was done so
 ```
-for each account {
-  account.availableBalance += X
-  account.currentBalance += X
+for each account in debAccounts {
+  account.availableBalance += ?
+  account.currentBalance += ?
   persist(new TransactionHistory(...))
 }
 ```
@@ -139,5 +152,17 @@ In a single transaction
  - <span style="color:red">blocksMoney</span>
  - <span style="color:red">persist</span>
 
+---
+
+### Transaction API. Scalability. Complete
+
+In a single transaction
+
+ - <span style="color:blue">validate limits</span>
+ - <span style="color:red">unblocks money</span>
+ - <span style="color:red">lockAllAccounts - does 'select for update' for each wallet in alphabetical order</span>
+ - <span style="color:red">executeTariffs</span>
+ - <span style="color:red">persistAll</span>
+ - <span style="color:red">setStatus - COMPLETED</span>
 
 ### The end
