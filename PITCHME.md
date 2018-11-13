@@ -64,14 +64,13 @@ In a single transaction
 
 ### Transaction API. Possible operations. Create. limits
 
-limits validation
-goes through all wallets and makes sure the following requirements are met(configurable):
+configurable:
 
  - wallets can't go lower than 0(all except one or two)
  - some wallets can't do more than X transaction per Y period
  - some wallets can't go higher than Z money
- - some wallets can't cashin more than X1 credit per Y1 period
- - some wallets can't spend more than X2 credit per Y2 period
+ - some wallets can't cashin more than X1 per Y1 period
+ - some wallets can't spend more than X2 per Y2 period
  - since all wallets are fetched at this point we have to lock them
  - validateLimits(transaction); // ~0.3 sec as it goes through user's history
 
