@@ -26,34 +26,47 @@
 
 ### Possible operations. Create
 
+In a single transaction
+
+ - validates business logic - user not deactivated/channel enabled
+ - generates transaction number
+ - validates limits(will be explained later)
+ - calculatesTariffs(will be explained later)
+ - blocksMoney(updates wallets)
+ - persist
+
+---
+
+### Possible operations. Create. limits
+
 ```java
-    @Transactional
-    public void createPending(Transaction transaction) throws TransactionException {
-        // random business validation which does some read-only queries to database
-        validateBusinessStuff(transaction);
+@Transactional
+public void createPending(Transaction transaction) throws TransactionException {
+    // random business validation which does some read-only queries to database
+    validateBusinessStuff(transaction);
 
-        generateTransactionNumber(transaction);
+    generateTransactionNumber(transaction);
 
-        // goes through all wallets and makes sure the following requirements are met(configurable):
-        // - wallets can't go lower than 0(all except one or two)
-        // - some wallets can't do more than X transaction per Y period
-        // - some wallets can't go higher than Z money
-        // - some wallets can't cashin more than X1 credit per Y1 period
-        // - some wallets can't spend more than X2 credit per Y2 period
-        // since all wallets are fetched at this point we have to lock them
-        validateLimits(transaction); // ~0.3 sec as it goes through user's history
+    // goes through all wallets and makes sure the following requirements are met(configurable):
+    // - wallets can't go lower than 0(all except one or two)
+    // - some wallets can't do more than X transaction per Y period
+    // - some wallets can't go higher than Z money
+    // - some wallets can't cashin more than X1 credit per Y1 period
+    // - some wallets can't spend more than X2 credit per Y2 period
+    // since all wallets are fetched at this point we have to lock them
+    validateLimits(transaction); // ~0.3 sec as it goes through user's history
 
-        // creates a lot of rows associated with the current transaction
-        // each row is related to a specific tariff and represent money movements
-        calculateTariffs(transaction); // ~0.3 sec
+    // creates a lot of rows associated with the current transaction
+    // each row is related to a specific tariff and represent money movements
+    calculateTariffs(transaction); // ~0.3 sec
 
-        // blocks money on sender's wallet based on the calculated tariffs
-        // which boils down to 'setAvailableBalance(availableBalance - X); persist(..)'
-        blockMoney(transaction);
+    // blocks money on sender's wallet based on the calculated tariffs
+    // which boils down to 'setAvailableBalance(availableBalance - X); persist(..)'
+    blockMoney(transaction);
 
-        // everything that was calculated is now persisted
-        persistTransactionAndAllRelatedRows(transaction);
-    }
+    // everything that was calculated is now persisted
+    persistTransactionAndAllRelatedRows(transaction);
+}
 ```
 
 ---
