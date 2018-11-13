@@ -10,9 +10,9 @@
 
 ### Possible operations
 
- - create(blocks money)
- - complete(sends money)
- - decline(does nothing, returns everything back as it was before)
+ - create - blocks money
+ - complete - sends money
+ - decline - does nothing, returns everything back as it was before
 
 ---
 
