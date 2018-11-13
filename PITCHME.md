@@ -1,6 +1,8 @@
 # Processing core
 
-Business problems:
+---
+
+### Business problems
  - slow processing time(in terms of throughput) because existing solution is not scalable(1 tx/second - terrible)
  - limits not working correctly(we disabled them that's why we're having no problems right now)
 
