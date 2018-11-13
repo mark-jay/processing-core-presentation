@@ -126,4 +126,18 @@ In a single transaction:
 
 https://gist.github.com/mark-jay/606af433376ca4d7ed25b10acd3bf91e
 
+---
+
+### Transaction API. Scalability. Create
+
+In a single transaction
+
+ - <span style="color:blue">validates business logic - fast non blocking read only operations</span>
+ - <span style="color:blue">generates transaction number - fast non blocking read only operations</span>
+ - <span style="color:red">validates limits - wallets fetched so they are in hibernate session</span>
+ - <span style="color:red">calculatesTariffs</span>
+ - <span style="color:red">blocksMoney</span>
+ - <span style="color:red">persist</span>
+
+
 ### The end
